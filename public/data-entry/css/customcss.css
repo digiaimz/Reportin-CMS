@@ -1,0 +1,76 @@
+.height-429-chart {
+	height:429px;
+}
+.add-table {
+	width:100%;
+	margin-top:20px;
+	background-color:#E9EBEC;
+	padding-top:10px;
+}
+.my-main-div {
+	background-color:;
+}
+.student-data-table-mobile {
+		display:none ;
+}		
+.my-table {
+	width: 100%;
+	font-size:13px;
+	border:1px solid black;
+}	
+.student-data {
+	font-size:10px !ipmortant;
+}
+.student-data {
+	background-color: #F8F8F8;
+}
+.student-data-table-mobile h4 {
+	color:#2BCDC1;
+	border-bottom:2px solid #2BCDC1;
+	width:95px;
+	margin:auto;	
+}
+.progress-ancr {
+	color:black;
+}
+.progress-ancr:hover {
+	color:#2BCDC1;
+	transition: 0.5s;
+}
+.plus-icon {
+	float:right;
+	font-size: 20px;
+	margin-top: 3px;
+}
+.card {
+	margin-top:35px;
+}
+.card-1 {
+	position:relative;
+	bottom:25px;
+}
+.card-2 {
+	position:relative;
+	bottom:50px;
+}	
+.my-card {
+	margin-bottom:-30px;
+}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@media(max-width:575px ) {
+	.student-data-table-mobile {
+		display: block !important;
+	}
+	.student-data-table-desktop {
+		display: none !important;
+	}
+}

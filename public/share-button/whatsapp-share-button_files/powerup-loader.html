@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><script src="powerup-loader_data/jquery.js"></script> <script src="a_data/power-up.js"></script> <script src="powerup-loader_data/moment.js"></script> <script src="powerup-loader_data/moment-timezone-with-data-2010-2020.js"></script> <script src="powerup-loader_data/powerup.js" charset="utf-8"></script><!-- Maintain Sentry version in one place. --> <script src="powerup-loader_data/bundle.js" integrity="sha384-KXjn4K+AYjp1cparCXazrB+5HKdi69IUYz8glD3ySH3fnDgMX3Wg6VTMvXUGr4KB" crossorigin="anonymous"></script> <script>window.addEventListener('load', () => {
+      if (!window.TrelloPowerUp) {
+        if (window.Sentry) {
+          Sentry.captureException(new Error('TrelloPowerUp script failed to load.'));
+        }
+        console.error('[ERROR] TrelloPowerUp script failed to load.');
+      } else {
+        if (window.ButlerPowerUp) {
+          window.ButlerPowerUp.init();
+        }
+      }
+    });</script> </head><body></body></html>
