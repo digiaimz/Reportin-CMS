@@ -75,6 +75,8 @@ CDR Report
             ajax: {
                 url: '{{ route("cdr.data") }}',
                 data: function (d) {
+                    d.start_date = $('#start_date').val();
+                    d.end_date = $('#end_date').val();
                     d.dcontext = $('#dcontext-filter').val();
                     d.src = $('#src-filter').val();
                     d.dst = $('#dst-filter').val();
@@ -84,6 +86,7 @@ CDR Report
                 }
             }, 
             columns: [
+                { data: 'calldate', name: 'calldate' },
                 {
     data: 'dcontext',
     name: 'dcontext',
@@ -137,6 +140,14 @@ CDR Report
         $('#dcontext-filter').on('change', function() {
     table.column('dcontext').search($(this).val()).draw();
 });
+
+$('#start_date, #end_date').on('change', function () {
+   
+    if(  $('#start_date').val() != "" &&  $('#start_date').val() != null &&
+     $('#end_date').val() != "" &&  $('#end_date').val() != null)
+    {$('#cdr-table').DataTable().draw();}
+            });
+
         // Apply filters on keyup event
         $('#src-filter, #dst-filter, #duration-filter, #disposition-filter, #recordingfile-filter').on('keyup', function() {
             $('#cdr-table').DataTable().draw();
@@ -182,6 +193,7 @@ CDR Report
                         <table id="cdr-table" class="table table-hover non-hover"  style="width:100%">
                             <thead>
                                 <tr>
+                                    <th>calldate</th>
                                     <th>Call Type</th>
                                     <th>Caller ID</th>
                                     <th>Destination</th>
@@ -190,6 +202,10 @@ CDR Report
                                     <th>Recording File</th>
                                 </tr>
                                 <tr>
+                                    <th>
+                                      <input type="datetime-local" class="form-control" id="start_date" name="start_date" placeholder="Start date" />
+                                       <input type="datetime-local"  class="form-control"  id="end_date" name="end_date" placeholder="End date" />
+                                        </th>
                                     <th><select class="form-control form-control-sm" id="dcontext-filter">
                                         <option value="">All</option>
                                         <option value="from-trunk">Incoming Call</option>

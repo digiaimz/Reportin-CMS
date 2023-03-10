@@ -30,103 +30,17 @@ use Illuminate\Support\Facades\Artisan;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// Route::get('/test', function () {
-//      $secret = "6LfSukgbAAAAAHBkn5s1QuarDziMh49no00lCkeP";
-//      $ip = $_SERVER['REMOTE_ADDR'];
-//      $response = "03AGdBq27k8pQSCAS1LpSHWwZJ1ina4UYYItZa3KaTLPIL9SVJHXTJ3y__8jCOPx3XiLj6Sda6luQ-UQyrR6My6as6E2G_Q2f5LjHlK7ovT3foeet-Q--Cie-o_o0NAA_byHfxFLdRDdChUxgWp5DACxrfLpJ8KvzhiWIXiyMGo04F2JLcnLnJXYSAkxhsqA8Lq2eM9Wnvwn-X_moBOZ4rJSeCrOEoXlZXrkopgXzl2sO0SV5JSiQLQnxe8ti06NQulFawHPEcNOB8TFKfS87ygJBxLZUaV3FYnIcUd6IXy8zS7Jmh5O-4wfWQK7wPNqbeWrk9syYsx8S-xqV0RF6QmF09KNG2qlFdk5B2Lh_ituEUnbFiCKmX_FY2miOgS877uF9CipF8Sc_-60r2t061djEZg4MsOc3ZOt5nzcWFkH-cQGC_PSmKxWc944BJSU8jwAj_JGeLk4V0HpZ_9BFcygplIfkKKCxRgzERHVSPSGIuTvC8lUZIc9x9x9a6mGXul4L6ct0aGbk5";
-//      $url ="https://www.google.com/recaptcha/api/siteverify?secret=".$secret."&response=".$response."&remoteip=".$ip;
-//      $fire = file_get_contents($url);
-//      $data = json_decode($fire);
-//      dd($data->success);
-// });
-
-
+ 
 Route::get('mongo' , function(){
 
-    dd(CDR::first());
+    dd(CDR::all());
 });
 
 
 
 Route::resource('ajaxproducts','ProductAjaxController');
 
-
-
-
-Route::get('/abcd', function () {
-
-    $date1 = "2022-03-01 00:00:00";
-    $date2 = "2022-11-30 00:00:00";
-
-    $total = 0;
-
-
-   echo  $ok = User::where('id_forum' ,1)->where('id_dist' , 6)->whereBetween('created_at', [$date1, $date2])->count();
-
-   echo "<br>";
-    echo $ok = Wabastagan::where('id_forum_user' ,1)->where('id_dist' , 6)->whereBetween('created_at', [$date1, $date2])->count();
-
-    // foreach (Zone::with('districts')->get() as $zone) {
-
-    //     $ok = Wabastagan::where('id_forum_user' ,1)->whereIN('id_dist' , $zone->districts->pluck('id_dist')->toArray())->whereBetween('created_at', [$date1, $date2])->count();
-
-    //     $total =   $total + $ok ;
-    //     echo   $zone->zone_name ." = ". $ok ."<br>"  ;
-
-    // }
-
-    // echo    "Total = ". $total ."<br>"  ;
-
-    // $total = 0;
-
-    // foreach (Zone::with('districts')->get() as $zone) {
-    //     $ok = User::where('id_forum' ,1)->whereIN('id_dist' , $zone->districts->pluck('id_dist')->toArray())->whereBetween('created_at', [$date1, $date2])->count();
-    //     $total =   $total + $ok ;
-    //     echo   $zone->zone_name ." = ". $ok ."<br>"  ;
-    // }
-
-    // echo    "Total = ". $total ."<br>"  ;
-
-
-});
-
-
-
-Route::get('/testing', function () {
-
-$user = User::with('wabastagans')->where('id' ,  1)->first();
-
-
-        $filtered = $user->wabastagans->filter(function ($value, $key) {
-
-            dd($value);
-            return $value > 2;
-        });
-
-
-   echo  User::has('wabastagans')->offset(0)->limit(100)->count();
-
- });
-
-
-Route::get('/promote-users', function () {
-
-        foreach(\App\Wabastagan::get() as $wabastagan)
-        {
-            $user = User::where('whatsapp', $wabastagan->whatsapp)->first();
-            if($user!= null)
-            {
-                $user->purmort_by = $wabastagan->user_id;
-                $user->save();
-
-            }
-        }
-
-});
-
-
-
-
+ 
 Route::get('/clear', function () {
       Artisan::call('cache:clear');
       Artisan::call('route:clear');
@@ -134,32 +48,7 @@ Route::get('/clear', function () {
 });
 
 
-Route::get('/auto-generate', function () {
-
-    $users = User::Get();
-    foreach($users as $user)
-    {
-        $length = 7;
-        $randomString = null;
-        $flag = true;
-        do{
-        $randomString=  substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
-        if(User::where('reffer_code' , $randomString )->first()==null)
-        {
-            $flag = false;
-        }
-
-         }while($flag);
-        $user->reffer_code = $randomString;
-        $user->save();
-
-    }
-
-
-
-});
-
-
+ 
 
 
 
@@ -179,28 +68,7 @@ Route::get('set-locale/{locale}', function ($locale) {
 
 
 
-Route::get('/send', function () {
-
-
-    $workers_users = User::all();
-    // collect($products)->filter(function ($item) use ($productName) {
-    //   created_at   // replace stristr with your choice of matching function
-
-    // });
-    $filtered = $workers_users->filter(function ($value, $key) {
-
-        dd($value->created_at->format('Y'));
-
-        // return false !== stristr($item->name, $productName);
-
-    });
-
-
-    $filtered_workers = $workers_users->where('email',  'LIKE'  ,'%zubairakhtar115@gmail.com%' )->all();
-   dd(count($filtered_workers) );
-});
-
-
+ 
 
 
 
@@ -211,91 +79,22 @@ Route::get('/send', function () {
 
 
 
+ 
 
-Route::get('/hi ', function () {
-
-    dd( DataTables::of(Forum::select('*'))
-    ->addColumn('action', 'action_button')
-    ->rawColumns(['action'])
-    ->addIndexColumn()
-    ->make(true));
-
-});
-
-Route::get('/entry', function () {
-    // return redirect()->route('login');
-    $users =  User::get();
-    foreach($users as $user)
+Route::get('dawati-form', function()
 {
-
-    $category = new BroadcastListCategory();
-    $category->category_name  = "Rafiq (Active)";
-    $category->is_authenticated  =1;
-    $category->ordering  = 1;
-    $category->user_id  = $user->id;
-    $category->year  = date('Y');
-    $category->Save();
-
-    $category = new BroadcastListCategory();
-    $category->category_name  = "Rafiq (Inactive)";
-    $category->is_authenticated  =1;
-    $category->ordering  = 2;
-    $category->user_id  = $user->id;
-    $category->year  = date('Y');
-    $category->Save();
-
-}
-
-
-});
-
-Route::get('/zone-summery', function () {
-
-
-    // return redirect()->route('login');
-    $zones =  Zone::get();
-
-    foreach($zones as $zone)
-{
-       if($zone->districts->has('users'))
-       {
-           dd($zone->zone_name);
-       }
-}
-
-
-});
-
-Route::get('/entry-update', function () {
-    // return redirect()->route('login');
-    $users =  User::get();
-
-foreach($users as $user)
-{
-    $categories =  BroadcastListCategory::where('user_id',$user->id)->get();
-    foreach($categories as $category)
-     {
-        $categor = BroadcastListCategory::where('cate_id',$category->cate_id)->first();
-       $name = $categor->category_name;
-        if($name=="Friends" ||
-            $name=="Family"  ||
-            $name=="Business" )
-        {
-            $categor->is_authenticated =1;
-            $categor->ordering =10;
-            $categor->save();
-        }
-
-
-     }
-
-}
-
-
+    return redirect()->route('dawati.form.view');
 });
 
 
+Auth::routes(['register' => false]);
 
+Route::middleware(['isLogin'])->group(function () {
+
+
+
+
+    
 
 
 
@@ -327,7 +126,7 @@ Route::post('/manage-groups-compaign-queue-update_record', 'FixedAssetController
 
 Route::get('/manage-group/{group}', 'FixedAssetController@manage_group')->name('manage-groups.page');
 
-
+ 
 
 
 Route::get('reporting/cdr-report', 'Wabastagan\ManageComplain@cdr_report')->name('complain.view.worker');
@@ -361,15 +160,7 @@ Route::post('getUC/for-edit-profile', 'PublicForm\ManageWorkers@getUCForEditProf
 Route::post('verifyNumber', 'PublicForm\ManageWorkers@verifyNumber')->name('get.worker.number.verify');
 Route::post('saveNewWorker', 'PublicForm\ManageWorkers@saveNewWorker')->name('save.new.worker.publicform');
 Route::get('register/{reffer?}', 'PublicForm\ManageWorkers@index')->name('dawati.form.view');
-Route::get('dawati-form', function()
-{
-    return redirect()->route('dawati.form.view');
-});
 
-
-Auth::routes(['register' => false]);
-
-Route::middleware(['isLogin'])->group(function () {
 
     // Languages and Translation
     Route::get('manage/languages', 'LanguageController@index')->name('manage.languages');

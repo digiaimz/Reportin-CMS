@@ -23,98 +23,49 @@ class ManageComplain extends Controller
     { 
         return view('dawa_theme.complain.list'  );
 
-    }
+    } 
 
 
-    public function getCdrDataa(Request $request)
-{
-    $columns = ['dcontext', 'src', 'dst', 'duration', 'disposition', 'recordingfile'];
-    $query = CDR::select($columns);
-    
-    // Apply filters
-    if ($request->has('dcontext')) {
-        if ($request->dcontext === 'from-trunk') {
-            $query->where('dcontext', '=', 'from-trunk');
-        } else {
-            $query->where('dcontext', '!=', 'from-trunk');
-        }
-    }
-    
-    if ($request->has('src')) {
-        $query->where('src', 'like', '%'.$request->src.'%');
-    }
-    
-    if ($request->has('dst')) {
-        $query->where('dst', 'like', '%'.$request->dst.'%');
-    }
-    
-    if ($request->has('duration')) {
-        $query->where('duration', 'like', '%'.$request->duration.'%');
-    }
-    
-    if ($request->has('disposition')) {
-        $query->where('disposition', 'like', '%'.$request->disposition.'%');
-    }
-    
-    if ($request->has('recordingfile')) {
-        $query->where('recordingfile', 'like', '%'.$request->recordingfile.'%');
-    }
-    
-    // Apply order
-    if ($request->has('order')) {
-        $order = $request->order[0];
-        $query->orderBy($columns[$order['column']], $order['dir']);
-    }
-    
-    // Get data
-    $cdrData = $query->paginate(100);
-    
-    // Format response
-    $response = [
-        'draw' => $request->draw,
-        'recordsTotal' => $cdrData->total(),
-        'recordsFiltered' => $cdrData->total(),
-        'data' => $cdrData->items(),
-    ];
-    
-    return response()->json($response);
-}
-
-
-
+  
 
 
 
     public function getCdrData(Request $request)
     {
-        $columns = ['dcontext', 'src', 'dst', 'duration', 'disposition', 'recordingfile'];
+        $columns = ['calldate', 'dcontext', 'src', 'dst', 'duration', 'disposition', 'recordingfile'];
     
         $cdrData = CDR::select($columns)
-                        ->when($request->dcontext, function ($query, $dcontext) {
-                            if ($dcontext === 'from-trunk') {
-                                return $query->where('dcontext', '=', 'from-trunk');
-                            } else {
-                                return $query->where('dcontext', '!=', 'from-trunk');
-                            }
-                        })
-                        ->when($request->src, function ($query, $src) {
-                            return $query->where('src', 'like', '%'.$src.'%');
-                        })
-                        ->when($request->dst, function ($query, $dst) {
-                            return $query->where('dst', 'like', '%'.$dst.'%');
-                        })
-                        ->when($request->duration, function ($query, $duration) {
-                            return $query->where('duration', 'like', '%'.$duration.'%');
-                        })
-                        ->when($request->disposition, function ($query, $disposition) {
-                            return $query->where('disposition', 'like', '%'.$disposition.'%');
-                        })
-                        ->when($request->recordingfile, function ($query, $recordingfile) {
-                            return $query->where('recordingfile', 'like', '%'.$recordingfile.'%');
-                        }) 
-                        ->orderBy($request->columns[$request->order[0]['column']]['data'], $request->order[0]['dir'])
-                        ->paginate($request->length, ['*'], 'page', $request->start / $request->length + 1);
+        ->when($request->dcontext, function ($query, $dcontext) {
+            if ($dcontext === 'from-trunk') {
+                return $query->where('dcontext', '=', 'from-trunk');
+            } else {
+                return $query->where('dcontext', '!=', 'from-trunk');
+            }
+        })
+        ->when($request->src, function ($query, $src) {
+            return $query->where('src', 'like', '%'.$src.'%');
+        })
+        ->when($request->dst, function ($query, $dst) {
+            return $query->where('dst', 'like', '%'.$dst.'%');
+        })
+        ->when($request->duration, function ($query, $duration) {
+            return $query->where('duration', 'like', '%'.$duration.'%');
+        })
+        ->when($request->disposition, function ($query, $disposition) {
+            return $query->where('disposition', 'like', '%'.$disposition.'%');
+        })
+        ->when($request->recordingfile, function ($query, $recordingfile) {
+            return $query->where('recordingfile', 'like', '%'.$recordingfile.'%');
+        })
+        ->when($request->start_date && $request->end_date, function ($query) use ($request) {
+            $start_date = date('Y-m-d H:i:s', strtotime($request->start_date));
+            $end_date = date('Y-m-d H:i:s', strtotime($request->end_date));
+            return $query->whereBetween('calldate', [$start_date, $end_date]);
+        })
+        ->orderBy($request->columns[$request->order[0]['column']]['data'], $request->order[0]['dir'])
+        ->paginate($request->length, ['*'], 'page', $request->start / $request->length + 1);
     
+ 
     
         return response()->json([
             'draw' => $request->input('draw'),
