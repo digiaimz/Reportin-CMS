@@ -20,20 +20,20 @@ class ManageComplain extends Controller
      * @return \Illuminate\Http\Response
      */
     public function cdr_report(Request $request)
-    { 
+    {
         return view('dawa_theme.complain.list'  );
 
-    } 
+    }
 
 
-  
+
 
 
 
     public function getCdrData(Request $request)
     {
         $columns = ['calldate', 'dcontext', 'src', 'dst', 'duration', 'disposition', 'recordingfile'];
-    
+
         $cdrData = CDR::select($columns)
         ->when($request->dcontext, function ($query, $dcontext) {
             if ($dcontext === 'from-trunk') {
@@ -64,9 +64,9 @@ class ManageComplain extends Controller
         })
         ->orderBy($request->columns[$request->order[0]['column']]['data'], $request->order[0]['dir'])
         ->paginate($request->length, ['*'], 'page', $request->start / $request->length + 1);
-    
- 
-    
+
+
+
         return response()->json([
             'draw' => $request->input('draw'),
             'recordsTotal' => $cdrData->total(),
@@ -79,13 +79,13 @@ class ManageComplain extends Controller
 
 
 
-    
 
 
 
 
 
-    
+
+
     public function getNotifications(Request $request)
     {
 

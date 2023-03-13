@@ -14,7 +14,7 @@ CDR Report
 @endsection
 @section('pagelevel_scripts_headers')
  <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
-  
+
  <link rel="stylesheet" type="text/css" href="{{asset('dawa_theme/plugins/table/datatable/datatables.css')}}" >
     <link rel="stylesheet" type="text/css" href="{{asset('dawa_theme/plugins/table/datatable/custom_dt_html5.css')}}" >
     <link rel="stylesheet" type="text/css" href="{{asset('dawa_theme/plugins/table/datatable/dt-global_style.css')}}" >
@@ -30,9 +30,9 @@ CDR Report
     .layout-px-spacing{
         width: 100%;
     }
- 
+
 .table > tbody > tr > td {
- 
+
     color: black;
 
 }
@@ -66,7 +66,7 @@ CDR Report
 <script src="{{asset('dawa_theme/plugins/table/datatable/button-ext/jszip.min.js')}}"></script>
 <script src="{{asset('dawa_theme/plugins/table/datatable/button-ext/buttons.html5.min.js')}}"></script>
 <script src="{{asset('dawa_theme/plugins/table/datatable/button-ext/buttons.print.min.js')}}"></script>
-  <!-- JS --> 
+  <!-- JS -->
 <script>
     $(document).ready(function() {
         $('#cdr-table').DataTable({
@@ -84,7 +84,7 @@ CDR Report
                     d.disposition = $('#disposition-filter').val();
                     d.recordingfile = $('#recordingfile-filter').val();
                 }
-            }, 
+            },
             columns: [
                 { data: 'calldate', name: 'calldate' },
                 {
@@ -99,29 +99,29 @@ CDR Report
     }
 },
 
-                                                    
+
                 { data: 'src', name: 'src' },
                 { data: 'dst', name: 'dst' },
                 { data: 'duration', name: 'duration' },
                 { data: 'disposition', name: 'disposition' },
-                { 
-                    data: 'recordingfile', 
+                {
+                    data: 'recordingfile',
                     name: 'recordingfile',
                     render: function(data, type, full, meta) {
-        
+
    return `<div style="text-align:center;"><svg style="cursor:not-allowed;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-volume-2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg><span class="icon-name">  </span>
    &nbsp;
    <svg  style="cursor:not-allowed;"   xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg><span class="icon-name"> </span>
    </div>
-   `;    
+   `;
     }
-                
+
                 }
             ]
             , ordering: true,
             dom: '<"row"<"col-md-12"<"row"<"col-md-3"B><"col-md-2"l><"col-md-3"i><"col-md-4"p> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
         buttons: {
-            buttons: [ 
+            buttons: [
                 { extend: 'csv', className: 'btn' },
                 { extend: 'excel', className: 'btn' },
                 { extend: 'print', className: 'btn' }
@@ -142,7 +142,7 @@ CDR Report
 });
 
 $('#start_date, #end_date').on('change', function () {
-   
+
     if(  $('#start_date').val() != "" &&  $('#start_date').val() != null &&
      $('#end_date').val() != "" &&  $('#end_date').val() != null)
     {$('#cdr-table').DataTable().draw();}
@@ -189,7 +189,7 @@ $('#start_date, #end_date').on('change', function () {
 
 
 
-                    <div class=" "> 
+                    <div class=" ">
                         <table id="cdr-table" class="table table-hover non-hover"  style="width:100%">
                             <thead>
                                 <tr>
@@ -203,8 +203,10 @@ $('#start_date, #end_date').on('change', function () {
                                 </tr>
                                 <tr>
                                     <th>
-                                      <input type="datetime-local" class="form-control" id="start_date" name="start_date" placeholder="Start date" />
-                                       <input type="datetime-local"  class="form-control"  id="end_date" name="end_date" placeholder="End date" />
+
+<input type="datetime-local" class="form-control" id="start_date" name="start_date" placeholder="Start date" value="<?php echo date('Y-m-d\TH:i:s'); ?>" />
+<input type="datetime-local" class="form-control" id="end_date" name="end_date" placeholder="End date" value="<?php echo date('Y-m-d\TH:i:s'); ?>" />
+
                                         </th>
                                     <th><select class="form-control form-control-sm" id="dcontext-filter">
                                         <option value="">All</option>
@@ -220,16 +222,16 @@ $('#start_date, #end_date').on('change', function () {
                             </thead>
                         </table>
                     </div>
-                
-                     
-                    
 
 
 
 
 
 
-                    
+
+
+
+
                 </div>
             </div>
         </div>
