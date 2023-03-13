@@ -204,8 +204,19 @@ $('#start_date, #end_date').on('change', function () {
                                 <tr>
                                     <th>
 
-<input type="datetime-local" class="form-control" id="start_date" name="start_date" placeholder="Start date" value="<?php echo date('Y-m-d\TH:i:s'); ?>" />
-<input type="datetime-local" class="form-control" id="end_date" name="end_date" placeholder="End date" value="<?php echo date('Y-m-d\TH:i:s'); ?>" />
+                                        <?php
+                                        // Set the default timezone to your desired timezone
+                                        // date_default_timezone_set('America/New_York');
+
+                                        // Get the current date and time
+                                        $current_datetime = date('Y-m-d') . 'T00:01:00';
+
+                                        // Get the end of the current day
+                                        $end_of_day = date('Y-m-d') . 'T23:59:59';
+                                        ?>
+
+                                        <input type="datetime-local" class="form-control" id="start_date" name="start_date" placeholder="Start date" value="<?php echo $current_datetime; ?>" />
+                                        <input type="datetime-local" class="form-control" id="end_date" name="end_date" placeholder="End date" value="<?php echo $end_of_day; ?>" />
 
                                         </th>
                                     <th><select class="form-control form-control-sm" id="dcontext-filter">
