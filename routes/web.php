@@ -127,11 +127,14 @@ Route::post('/manage-groups-compaign-queue-update_record', 'FixedAssetController
 Route::get('/manage-group/{group}', 'FixedAssetController@manage_group')->name('manage-groups.page');
 
  
+ 
+
+Route::get('reporting/cdr-report-incoming', 'Wabastagan\ManageComplain@cdr_report_incoming')->name('complain.view.incoming');
+Route::get('/cdr-data-incoming', 'Wabastagan\ManageComplain@getCdrData_incoming')->name('cdr.data.incoming');
 
 
-Route::get('reporting/cdr-report', 'Wabastagan\ManageComplain@cdr_report')->name('complain.view.worker');
-Route::get('/cdr-data', 'Wabastagan\ManageComplain@getCdrData')->name('cdr.data');
-
+Route::get('reporting/cdr-report-outgoing', 'Wabastagan\ManageComplain@cdr_report_outgoing')->name('complain.view.worker.outgoing');
+Route::get('/cdr-data-outgoing', 'Wabastagan\ManageComplain@getCdrData_outgoing')->name('cdr.data.outgoing');
 
 Route::get('refresh-token', 'Wabastagan\ManageWabastagan@refreshToken')->name('refresh.token');
 

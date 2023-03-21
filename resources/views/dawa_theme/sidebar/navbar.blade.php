@@ -45,7 +45,7 @@
 </li>
 @endcan
 
-
+ 
 @can('manage-clips' )
 <li class="menu   @yield('clips_active')">
     <a href="{{route('view.clips.manage')}}"  @yield('clips_active_aria')   class="dropdown-toggle">

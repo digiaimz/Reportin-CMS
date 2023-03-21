@@ -6,7 +6,7 @@ active
 @section('manage_CDR_aria') aria-expanded="true" @endsection
 
 @section('title')
-CDR Report Incoming
+CDR Report Outgoing
 @endsection
 @section('loader')
 <div id="load_screen"> <div class="loader"> <div class="loader-content">
@@ -74,7 +74,7 @@ CDR Report Incoming
             processing: true,
             serverSide: true,
             ajax: {
-                url: '{{ route("cdr.data.incoming") }}',
+                url: '{{ route("cdr.data.outgoing") }}',
                 data: function (d) {
                     d.start_date = $('#start_date').val();
                     d.end_date = $('#end_date').val();
@@ -178,7 +178,7 @@ $('#start_date, #end_date').on('change', function () {
                         </a></li>
 
                         <li class="breadcrumb-item active" aria-current="page"><a href="javascript:void(0);" style="    color: #007bff;">
-                       CDR Report Incoming  </a></li>
+                       CDR Report Outgoing  </a></li>
                     </ol>
                 </nav>
                 <div class="table-responsive mb-4  ">
@@ -221,10 +221,10 @@ $('#start_date, #end_date').on('change', function () {
 
                                         </th>
                                     <th><select disabled class="form-control form-control-sm"  >
-                                        <option selected value="from-trunk">Incoming Call</option>
+                                        <option selected value="from-trunk">Outgoing Call</option>
                                     </select>
                                     <select hidden class="form-control form-control-sm" id="dcontext-filter">
-                                        <option selected value="from-trunk">Incoming Call</option>
+                                        <option selected value="from-trunk-outgoing">Outgoing Call</option>
                                     </select>
                                 </th>
                                     <th><input type="text" class="form-control form-control-sm" placeholder="Filter" id="src-filter"></th>

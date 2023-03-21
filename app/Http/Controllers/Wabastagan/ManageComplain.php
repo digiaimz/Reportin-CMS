@@ -19,21 +19,21 @@ class ManageComplain extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function cdr_report(Request $request)
-    {
+    public function cdr_report_incoming(Request $request)
+    { 
         return view('dawa_theme.complain.list'  );
 
-    }
+    }  
+
+
+  
 
 
 
-
-
-
-    public function getCdrData(Request $request)
+    public function getCdrData_incoming(Request $request)
     {
         $columns = ['calldate', 'dcontext', 'src', 'dst', 'duration', 'disposition', 'recordingfile'];
-
+    
         $cdrData = CDR::select($columns)
         ->when($request->dcontext, function ($query, $dcontext) {
             if ($dcontext === 'from-trunk') {
@@ -64,9 +64,68 @@ class ManageComplain extends Controller
         })
         ->orderBy($request->columns[$request->order[0]['column']]['data'], $request->order[0]['dir'])
         ->paginate($request->length, ['*'], 'page', $request->start / $request->length + 1);
+    
+ 
+    
+        return response()->json([
+            'draw' => $request->input('draw'),
+            'recordsTotal' => $cdrData->total(),
+            'recordsFiltered' => $cdrData->total(),
+            'data' => $cdrData->items(),
+        ]);
+    }
 
 
 
+
+    public function cdr_report_outgoing(Request $request)
+    { 
+        return view('dawa_theme.complain.list_outgoing'  );
+
+    }  
+
+
+  
+
+
+
+    public function getCdrData_outgoing(Request $request)
+    {
+        $columns = ['calldate', 'dcontext', 'src', 'dst', 'duration', 'disposition', 'recordingfile'];
+    
+        $cdrData = CDR::select($columns)
+        ->when($request->dcontext, function ($query, $dcontext) {
+            if ($dcontext === 'from-trunk') {
+                return $query->where('dcontext', '=', 'from-trunk');
+            } else {
+                return $query->where('dcontext', '!=', 'from-trunk');
+            }
+        })
+        ->when($request->src, function ($query, $src) {
+            return $query->where('src', 'like', '%'.$src.'%');
+        })
+        ->when($request->dst, function ($query, $dst) {
+            return $query->where('dst', 'like', '%'.$dst.'%');
+        })
+        ->when($request->duration, function ($query, $duration) {
+            return $query->where('duration', 'like', '%'.$duration.'%');
+        })
+        ->when($request->disposition, function ($query, $disposition) {
+            return $query->where('disposition', 'like', '%'.$disposition.'%');
+        })
+        ->when($request->recordingfile, function ($query, $recordingfile) {
+            return $query->where('recordingfile', 'like', '%'.$recordingfile.'%');
+        })
+        ->when($request->start_date && $request->end_date, function ($query) use ($request) {
+            $start_date = date('Y-m-d H:i:s', strtotime($request->start_date));
+            $end_date = date('Y-m-d H:i:s', strtotime($request->end_date));
+            return $query->whereBetween('calldate', [$start_date, $end_date]);
+        })
+        ->orderBy($request->columns[$request->order[0]['column']]['data'], $request->order[0]['dir'])
+        ->paginate($request->length, ['*'], 'page', $request->start / $request->length + 1);
+    
+ 
+    
         return response()->json([
             'draw' => $request->input('draw'),
             'recordsTotal' => $cdrData->total(),
@@ -79,13 +138,15 @@ class ManageComplain extends Controller
 
 
 
+    
+
+    
 
 
 
 
 
-
-
+    
     public function getNotifications(Request $request)
     {
 
